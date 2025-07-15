@@ -33,6 +33,12 @@ describe("String Calculator", () => {
     expect(add("//|\n5|6|7")).toBe(18);
   });
 
+  test("supports multi-character delimiters", () => {
+    expect(add("//[***]\n1***2***3")).toBe(6);
+    expect(add("//[abc]\n4abc5abc6")).toBe(15);
+    expect(add("//[--]\n7--8--9")).toBe(24);
+  });
+
   test("throws an exception for a single negative number", () => {
     expect(() => add("1,-2,3")).toThrow("negatives not allowed: -2");
     expect(() => add("//;\n-1;2;3")).toThrow("negatives not allowed: -1");

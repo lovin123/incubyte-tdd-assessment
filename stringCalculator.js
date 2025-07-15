@@ -5,10 +5,18 @@ export function add(numbers) {
   let delimiter = ",";
   let numString = numbers;
 
-  // check for custom delimiter
+  // check for custom delimiter (multi-character)
   if (numbers.startsWith("//")) {
-    delimiter = numbers[2];
-    numString = numbers.slice(4);
+    if (numbers[2] === "[") {
+      // multi-character delimiter
+      const endIdx = numbers.indexOf("]");
+      delimiter = numbers.slice(3, endIdx);
+      numString = numbers.slice(endIdx + 2); // skip //[delimiter]\n
+    } else {
+      // single-character delimiter
+      delimiter = numbers[2];
+      numString = numbers.slice(4);
+    }
   }
 
   // replace newlines with commas and split by delimiter
