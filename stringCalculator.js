@@ -19,5 +19,10 @@ export function add(numbers) {
     .filter((n) => n.length > 0)
     .map(Number);
 
+  const negatives = numberList.filter((n) => n < 0);
+  if (negatives.length > 0) {
+    throw new Error(`negatives not allowed: ${negatives.join(",")}`);
+  }
+
   return numberList.reduce((sum, n) => sum + n, 0);
 }
