@@ -39,6 +39,18 @@ describe("String Calculator", () => {
     expect(add("//[--]\n7--8--9")).toBe(24);
   });
 
+  test("supports multiple delimiters", () => {
+    expect(add("//[*][%]\n1*2%3")).toBe(6);
+    expect(add("//[a][b]\n4a5b6")).toBe(15);
+    expect(add("//[--][++]\n7--8++9")).toBe(24);
+    expect(add("//[***][#][%]\n1***2#3%4")).toBe(10);
+  });
+
+  test("supports multiple delimiters of any length", () => {
+    expect(add("//[***][%%][abc]\n1***2%%3abc4")).toBe(10);
+    expect(add("//[long][delim][!@#]\n5long6delim7!@#8")).toBe(26);
+  });
+
   test("throws an exception for a single negative number", () => {
     expect(() => add("1,-2,3")).toThrow("negatives not allowed: -2");
     expect(() => add("//;\n-1;2;3")).toThrow("negatives not allowed: -1");

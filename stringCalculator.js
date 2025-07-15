@@ -2,25 +2,33 @@ export function add(numbers) {
   if (!numbers) return 0;
 
   // default delimiter
-  let delimiter = ",";
+  let delimiters = [","];
   let numString = numbers;
 
-  // check for custom delimiter (multi-character)
+  // check for custom delimiter (multi or single)
   if (numbers.startsWith("//")) {
     if (numbers[2] === "[") {
-      // multi-character delimiter
-      const endIdx = numbers.indexOf("]");
-      delimiter = numbers.slice(3, endIdx);
-      numString = numbers.slice(endIdx + 2); // skip //[delimiter]\n
+      // multiple delimiters
+      const delimiterSectionEnd = numbers.indexOf("\n");
+      const delimiterSection = numbers.slice(2, delimiterSectionEnd);
+      delimiters = Array.from(
+        delimiterSection.matchAll(/\[(.*?)\]/g),
+        (m) => m[1]
+      );
+      numString = numbers.slice(delimiterSectionEnd + 1);
     } else {
       // single-character delimiter
-      delimiter = numbers[2];
+      delimiters = [numbers[2]];
       numString = numbers.slice(4);
     }
   }
 
-  // replace newlines with commas and split by delimiter
-  const unified = numString.replace(/\n/g, ",").split(delimiter).join(",");
+  // replace newlines with commas
+  let unified = numString.replace(/\n/g, ",");
+  // replace all delimiters with commas
+  for (const delim of delimiters) {
+    unified = unified.split(delim).join(",");
+  }
 
   const numberList = unified
     .split(",")
