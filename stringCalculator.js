@@ -1,7 +1,8 @@
 export function add(numbers) {
   if (!numbers) return 0;
 
-  let delimiter = ","; // default delimiter
+  // default delimiter
+  let delimiter = ",";
   let numString = numbers;
 
   // check for custom delimiter
@@ -19,10 +20,14 @@ export function add(numbers) {
     .filter((n) => n.length > 0)
     .map(Number);
 
+  // check for negatives
   const negatives = numberList.filter((n) => n < 0);
   if (negatives.length > 0) {
     throw new Error(`negatives not allowed: ${negatives.join(",")}`);
   }
 
-  return numberList.reduce((sum, n) => sum + n, 0);
+  // Ignore numbers greater than 1000
+  const filtered = numberList.filter((n) => n <= 1000);
+
+  return filtered.reduce((sum, n) => sum + n, 0);
 }

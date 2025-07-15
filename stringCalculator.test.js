@@ -42,4 +42,11 @@ describe("String Calculator", () => {
     expect(() => add("1,-2,-3,4")).toThrow("negatives not allowed: -2,-3");
     expect(() => add("//|\n-5|6|-7")).toThrow("negatives not allowed: -5,-7");
   });
+
+  test("ignores numbers greater than 1000", () => {
+    expect(add("2,1001")).toBe(2);
+    expect(add("1000,1")).toBe(1001);
+    expect(add("1234,1001,3")).toBe(3);
+    expect(add("//;\n1001;2;3")).toBe(5);
+  });
 });
