@@ -26,4 +26,10 @@ describe("String Calculator", () => {
     expect(add("4\n5\n6")).toBe(15);
     expect(add("7,8\n9")).toBe(24);
   });
+
+  test("supports custom single-character delimiters", () => {
+    expect(add("//;\n1;2")).toBe(3);
+    expect(add("//#\n2#3#4")).toBe(9);
+    expect(add("//|\n5|6|7")).toBe(18);
+  });
 });
